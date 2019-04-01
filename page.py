@@ -97,10 +97,10 @@ class SearchPage(BasePage):
         return num
 
     def get_item_reviews(self, element):
-        num = 0
+        num = "0"
         try:
-            num = int(element.find_element_by_xpath(
-                self.locators.ITEM_REVIEWS).text)
+            num = element.find_element_by_xpath(
+                self.locators.ITEM_REVIEWS).text
         except NoSuchElementException:
             pass
 
