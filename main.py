@@ -16,7 +16,7 @@ class SearchItem:
         self.authors = []
         self.price = ""
         self.num_stars = 0
-        self.num_reviews = 0
+        self.num_reviews = "0"
         self.item_name = 0
         self.item_date = 0
         self.link = ""
