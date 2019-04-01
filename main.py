@@ -90,7 +90,6 @@ def get_search_results(search_page):
     results = []
     for i in range(1, 5):
         print("Getting page number: {}.".format(i))
-        search_page.get_page_num(i)
         item_data_list = search_page.get_web_elements()
 
         for item_data in item_data_list:
@@ -105,12 +104,20 @@ def get_search_results(search_page):
             amazon_item.link = search_page.get_item_link(item_data)
             results.append(amazon_item)
 
+        if i != 4:
+            search_page.get_page_num(i + 1)
+
     return results
 
 
 def main():
     print("Starting test.")
     driver = webdriver.Chrome(WEB_DRIVER_PATH)
+
+    print("Search for {}.".format(SEARCH_KEY))
+    main_page = page.AmazonPage(driver)
+    main_page.search_item(SEARCH_KEY)
+
     search_page = page.SearchPage(driver, SEARCH_KEY)
     search_results = get_search_results(search_page)
 

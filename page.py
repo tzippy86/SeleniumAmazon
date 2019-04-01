@@ -10,6 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import time
 
+WAIT_TIME = 10
 
 class BasePage:
     def __init__(self, driver):
@@ -25,6 +26,21 @@ class BasePage:
 class BaseLocators:
     ITEM_ASIN = "data-asin"
 
+class MainPageLocators(BaseLocators):
+    SEARCH_KEY = "nav - input"
+    SEARCH_BAR = "field-keywords"
+    MAIN_PAGE_URL = "https://www.amazon.com"
+
+class AmazonPage(BasePage):
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.locators = MainPageLocators()
+        driver.get(self.locators.MAIN_PAGE_URL)
+
+    def search_item(self, key):
+        self.driver.find_element_by_name(self.locators.SEARCH_BAR).send_keys(key)
+        self.driver.find_element_by_class_name("nav-input").send_keys(Keys.ENTER)
+        time.sleep(WAIT_TIME)
 
 class SearchPageLocators(BaseLocators):
     SEARCH_URL = "https://www.amazon.com/{0}/s?k={0}&page={1}"
@@ -164,7 +180,7 @@ class ItemPage(BasePage):
         link.click()
         # waiting to the item to be added to the cart.
         # TODO: wait for the page to load using wait.until
-        time.sleep(3)
+        time.sleep(WAIT_TIME)
 
     def add_to_cart(self):
         self.driver.find_element_by_xpath(
